@@ -1,0 +1,72 @@
+{% extends 'base_externo.html' %}
+
+{% load widget_tweaks %}
+
+{% block title %}Login{% endblock %}
+
+{% block estilo%}
+<style>
+    .centralizado {
+        height: 100vh;
+    }
+
+  
+</style>
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+<section class="container">
+    
+    <div class="row centralizado align-items-center justify-content-center">
+        
+        <div class="card col-md-6 mx-2">
+            
+            <div class="card-header card-header-text card-header-success">
+                <div class="card-text text-center">
+                    <h4 class="card-title">Login</h4>
+                </div>
+            </div>
+            <div class="card-body py-5">
+
+                {% if form.errors %}
+
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Falha no Login!</strong> Email ou senha inválidos.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                {% endif %}
+
+                <form method="post">{% csrf_token %}
+                    <div class="row">
+                        {% for field in form %}
+                        <div class="col-12 mb-4">
+                            <label for="{{ field.name }}">{{field.label}}</label>
+                            {{ field | add_class:"form-control"}}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <input type="submit" class="btn btn-outline-success btn-login" value="Entrar" />
+                </form>
+
+                <p class="mt-5 text-center"><a href="{% url 'accounts:password_reset' %}">Esqueci minha senha</a></p>
+
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,153 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title%}{% endblock %}</title>
+
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css"
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    <!-- CSS Files -->
+    <link href="{% static 'material-kit-master/assets/css/material-kit.css' %}" rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="{% static 'material-kit-master/assets/demo/demo.css' %}" rel="stylesheet" />
+
+    <!-- datatable -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg bg-success">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'core:index' %}">Sis<strong>HE</strong></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+
+
+                        {% if request.user.is_authenticated %}
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="#">Horário Individual <span class="sr-only">(current)</span></a>
+                        </li> -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Cursos</a> 
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="#">Turmas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Disciplinas</a>
+                        </li> -->
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {% if request.user.name %}
+                                {{ request.user.fist_name}}
+                                {% else %}
+                                {{ request.user.username}}
+                                {% endif %}
+
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="#">Perfil</a>
+                                <a class="dropdown-item" href="#">Alterar Senha</a>
+                                <a class="dropdown-item" href="{% url 'accounts:logout'%}">Sair</a>
+                            </div>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:login'%}">Login</a>
+                        </li>
+                        {% endif %}
+
+
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        {% block content%}{% endblock %}
+
+    </main>
+
+    <footer></footer>
+
+    <!--   Core JS Files   -->
+    <script src="{% static 'material-kit-master/assets/js/core/jquery.min.js' %}"></script>
+    <script src="{% static 'material-kit-master/assets/js/core/popper.min.js' %}"></script>
+    <script src="{% static 'material-kit-master/assets/js/core/bootstrap-material-design.min.js' %}"></script>
+    <script src="{% static 'material-kit-master/assets/js/plugins/moment.min.js' %}"></script>
+    <!--	Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker -->
+    <script src="{% static 'material-kit-master/assets/js/plugins/bootstrap-datetimepicker.js' %}"></script>
+    <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+    <script src="{% static 'material-kit-master/assets/js/plugins/nouislider.min.js' %}"></script>
+    <!--  Google Maps Plugin    -->
+    <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
+    <script src="{% static 'material-kit-master/assets/js/material-kit.js' %}"></script>
+
+    <!-- datatable -->
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            //init DateTimePickers
+            materialKit.initFormExtendedDatetimepickers();
+
+            // Sliders Init
+            materialKit.initSliders();
+        });
+
+
+        function scrollToDownload() {
+            if ($('.section-download').length != 0) {
+                $("html, body").animate({
+                    scrollTop: $('.section-download').offset().top
+                }, 1000);
+            }
+        }
+
+
+        $(document).ready(function () {
+            $('#myTable').DataTable(
+                {
+                    language: {
+                        "sLengthMenu": "Mostrar _MENU_ registros por página",
+                        "sZeroRecords": "Nenhum registro encontrado",
+                        "sInfo": "Mostrando _START_ / _END_ de _TOTAL_ registro(s)",
+                        "sInfoEmpty": "Mostrando 0 / 0 de 0 registros",
+                        "sInfoFiltered": "(filtrado de _MAX_ registros)",
+                        "sSearch": "Pesquisar: ",
+                        "oPaginate": {
+                            "sFirst": "Início",
+                            "sPrevious": "Anterior",
+                            "sNext": "Próximo",
+                            "sLast": "Último"
+                        }
+                    }
+
+                }
+            );
+
+        });
+    </script>
+</body>
+
+</html>
