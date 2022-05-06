@@ -45,28 +45,37 @@
                             <a class="nav-link" href="#">Horário Individual <span class="sr-only">(current)</span></a>
                         </li> -->
                         <li class="nav-item">
-                            <a class="nav-link" href="">Cursos</a> 
-                        </li>
-                        <!-- <li class="nav-item">
-                            <a class="nav-link" href="#">Turmas</a>
+                            <a class="nav-link" href="{% url 'accounts:axis_create' %}">Eixo</a> 
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Disciplinas</a>
-                        </li> -->
+                            <a class="nav-link" href="{% url 'accounts:teacher_create' %}">Professor</a> 
+                        </li>
+                        
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Usuários
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="{% url 'accounts:user_create' %}">Coordenadores</a>
+                                <a class="dropdown-item" href="{% url 'accounts:axis_create' %}">Eixo</a>
+                                <a class="dropdown-item" href="{% url 'accounts:teacher_create' %}">Professores</a>
+                            </div>
+                        </li>
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {% if request.user.name %}
-                                {{ request.user.fist_name}}
+                                    {{ request.user.fist_name}}
                                 {% else %}
-                                {{ request.user.username}}
+                                    {{ request.user.username}}
                                 {% endif %}
 
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="#">Perfil</a>
-                                <a class="dropdown-item" href="#">Alterar Senha</a>
+                                <a class="dropdown-item" href="{% url 'accounts:password_change' %}">Alterar Senha</a>
                                 <a class="dropdown-item" href="{% url 'accounts:logout'%}">Sair</a>
                             </div>
                         </li>

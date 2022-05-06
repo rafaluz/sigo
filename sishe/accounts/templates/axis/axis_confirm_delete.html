@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %} SisHE - Delete {% endblock title %}
+{% block content %}
+
+<section class="container my-5">
+    <h2>Remoção de Eixo</h2>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-nav-tabs">
+                <!-- <div class="card-header card-header-success text-center">
+                    Remoção de Eixo
+                </div> -->
+                <div class="card-body my-3">
+                    <form method="post">{% csrf_token %}
+                        <h4>Tem certeza que deseja remover o eixo <strong>"{{ object }}"</strong>?</h4>
+                        <input type="submit" value="Remover" class="btn btn-danger">
+                        <a class="btn btn-info my-3" href="{% url 'accounts:axis_create' %}">Cancelar</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock content %}

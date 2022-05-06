@@ -36,7 +36,7 @@ class User(AbstractUser,AuditModel):
 
 
 class Axis(AuditModel):
-    name = models.CharField(max_length=255)
+    name = models.CharField("Nome", max_length=255)
 
     def __str__(self):
         return self.name
