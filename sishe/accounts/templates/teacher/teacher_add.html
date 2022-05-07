@@ -32,10 +32,31 @@
                     <form method="post" class="form-group">{% csrf_token %}
                         
                         {% for field in form %}
-                            <div class="form-group">
-                                <label for="{{ field.name }}">{{field.label}}</label>
-                                {{ field | add_class:"form-control"}}
-                            </div>
+
+                            <!-- Dias da semana -->
+                            {% if field.name == "school_days" %}
+                                <div class="form-group">
+                                    <label for="{{ field.name }}">{{field.label}}</label><br/>
+                                    {% for value, text in form.school_days.field.choices %}
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" id="id_school_days_{{ forloop.counter0 }}" name="{{ form.school_days.name }}" value="{{ value }}" {% if value in field.value %} checked="checked" {% endif %}> {{ text }}
+                                            <span class="form-check-sign">
+                                                <span class="check"></span>
+                                            </span>
+                                            </label>
+                                        </div>
+                                        
+                                    {% endfor %}
+                                </div>
+                                <!-- {% if field.value %} checked {% endif %} -->
+                            <!-- outros inputs -->
+                            {% else %}
+                                <div class="form-group">
+                                    <label for="{{ field.name }}">{{field.label}}</label>
+                                    {{ field | add_class:"form-control"}}
+                                </div>
+                            {% endif %}
                         {% endfor %}
 
                         <input class="btn btn-success my-3" type="submit" value="Adicionar" />

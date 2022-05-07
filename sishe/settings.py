@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'sishe.school',
     # apps de terceiros
     'widget_tweaks',
+    'multiselectfield',
 ]
 
 MIDDLEWARE = [

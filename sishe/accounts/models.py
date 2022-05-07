@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, UserManager
 import uuid
+from multiselectfield import MultiSelectField
 
 # Create your models here.
 
@@ -46,7 +47,8 @@ class Teacher(AuditModel):
     GENDER_CHOICES = (('Professor', 'Professor'), ('Professora', 'Professora'))
     gender = models.CharField(u'Gênero', max_length=10, choices=GENDER_CHOICES, blank=True, help_text='*')
     SCHOOL_DAYS_CHOICES = (('Seg', 'Seg'), ('Ter', 'Ter'), ('Qua', 'Qua'), ('Qui', 'Qui'), ('Sex', 'Sex'), ('Sab', 'Sab'))
-    school_days = models.CharField(u'Dias de Ensino', max_length=10, choices=SCHOOL_DAYS_CHOICES, blank=True, help_text='*')
+    # school_days = models.CharField(u'Dias de Ensino', max_length=10, choices=SCHOOL_DAYS_CHOICES, blank=True, help_text='*')
+    school_days = MultiSelectField('Dias de Ensino', choices=SCHOOL_DAYS_CHOICES)
     note = models.TextField('Observação', blank=True)
     axis = models.ForeignKey(Axis, verbose_name='Eixo', related_name='teachers', on_delete=models.CASCADE) # blank=True, null=True
     
