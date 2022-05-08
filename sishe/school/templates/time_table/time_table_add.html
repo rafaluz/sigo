@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %} SisHE - Create {% endblock title %}
+{% block content %}
+<section class="container my-5">
+    <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'school:class_shift_create' %}">Turnos</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Horários dos Turnos</li>
+        </ol>
+      </nav>
+
+    <!-- exibindo messages do django -->
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+
+    <h2>Horários do Turno ( {{ class_shift }} )</h2>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card card-nav-tabs">
+                <div class="card-header card-header-success text-center">
+                    Cadastrar Horário
+                </div>
+                <div class="card-body mt-3">
+                    <form method="post" class="form-group">{% csrf_token %}
+
+                        {% for field in form %}
+                            <div class="form-group">
+                                <label for="{{ field.name }}">{{field.label}}</label>
+                                {{ field | add_class:"form-control"}}
+                            </div>
+                        {% endfor %}
+
+                        <input class="btn btn-success my-3" type="submit" value="Adicionar" />
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card card-nav-tabs ">
+                <div class="card-header card-header-success text-center">
+                    Listagem de Horários
+                </div>
+                <div class="card-body mt-3">
+                    <table class="table pt-4 mb-4" id='myTable'>
+                        <thead>
+                            <tr>
+                                <th>Hora de Início da Aula</th>
+                                <th class="text-right">Opções</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for object in object_list %}
+                            <tr>
+                                <td>{{ object.start }}</td>
+                                <td class="td-actions text-right">
+                                    <a href="{% url 'school:time_table_update' class_shift.pk object.pk %}">
+                                        <button type="button" rel="tooltip" class="btn btn-success p-2">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+                                    </a>
+                                    <a href="{% url 'school:time_table_delete' class_shift.pk  object.id %}">
+                                        <button type="button" rel="tooltip" class="btn btn-danger p-2">
+                                            <i class="material-icons">close</i>
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+
+
+</script>
+
+{% endblock content %}
+
+
+{% block scripts %} 
+    <script>
+        $('#id_start').datetimepicker({
+        format: 'HH:00',
+        locale: 'pt-br',
+        disabledHours: [0,1,2,3,4,5,6,23,24]
+                //pickTime: false,
+                // sideBySide: true
+        });
+    </script>
+{% endblock %}

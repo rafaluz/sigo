@@ -20,5 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('sishe.core.urls')),
     path('', include('sishe.accounts.urls')),
-    # path('', include('sishe.school.urls')),
+    path('', include('sishe.school.urls')),
 ]

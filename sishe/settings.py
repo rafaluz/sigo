@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # apps de terceiros
     'widget_tweaks',
     'multiselectfield',
+    'colorfield',
 ]
 
 MIDDLEWARE = [
