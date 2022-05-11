@@ -50,13 +50,13 @@ class TimeTable(AuditModel):
 class Grade(AuditModel):
     course = models.ForeignKey(Course, verbose_name='Course', related_name='grades', on_delete=models.CASCADE)
     MODE_CHOICES = (('Integrado', 'Integrado'), ('Subsequente', 'Subsequente'), ('Superior', 'Superior'))
-    mode = models.CharField(u'Forma', max_length=11, choices=MODE_CHOICES, blank=True, help_text='*')
+    mode = models.CharField(u'Forma', max_length=11, choices=MODE_CHOICES, blank=True, help_text='*',default='Integrado')
     period = models.IntegerField("Periodo Letivo")
     class_shift = models.ForeignKey(ClassShift, verbose_name='ClassShift', related_name='grades', on_delete=models.CASCADE)
     semester = models.ForeignKey(Semester, verbose_name='Semester', related_name='grades', on_delete=models.CASCADE)
     
     def __str__(self):
-        return str(self.period + "º Módulo/Periodo - " + self.mode) 
+        return str(self.period) + "º Módulo/Periodo - " + str(self.mode) 
 
     class Meta:
         verbose_name = 'Course'
@@ -64,7 +64,7 @@ class Grade(AuditModel):
         ordering = ['create_on']
 
 # Componente curricular (Disciplina)
-
+    
 class CurricularComponent(AuditModel):
     name = models.CharField('Nome',max_length=255)
     grade = models.ForeignKey(Grade, verbose_name='Grade', related_name='curricular_components', on_delete=models.CASCADE)

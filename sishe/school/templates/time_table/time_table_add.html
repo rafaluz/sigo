@@ -91,15 +91,15 @@
 
 </section>
 
-<script>
-
-
-</script>
-
 {% endblock content %}
 
 
 {% block scripts %} 
+
+    {{ block.super }}
+    {{ form.media }}
+
+
     <script>
         $('#id_start').datetimepicker({
         format: 'HH:00',
@@ -109,4 +109,5 @@
                 // sideBySide: true
         });
     </script>
+    
 {% endblock %}

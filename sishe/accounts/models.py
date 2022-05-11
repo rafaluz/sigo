@@ -30,7 +30,10 @@ class User(AbstractUser,AuditModel):
 
 
     def __str__(self):
-        return self.email
+        if self.name:
+            return self.name
+        else:
+            return self.email
     
     def first_name(self):
         return self.name.split()[0]

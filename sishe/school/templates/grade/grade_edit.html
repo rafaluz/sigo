@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %} SisHE - Edit {% endblock title %}
+{% block content %}
+<section class="container my-5">
+    <h2>Turmas do Semestre ( {{ semester }} )</h2>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card card-nav-tabs">
+                <div class="card-header card-header-success text-center">
+                    Alterar Turma
+                </div>
+                <div class="card-body mt-3">
+                    <form method="post" class="form-group">{% csrf_token %}
+
+                        {% for field in form %}
+                            <div class="form-group">
+                                <label for="{{ field.name }}">{{field.label}}</label>
+                                {{ field | add_class:"form-control"}}
+                            </div>
+                        {% endfor %}
+
+                        <input class="btn btn-success my-3" type="submit" value="Editar"/>
+                        <a class="btn btn-info my-3" href="{% url 'school:grade_create' semester.pk %}">Cancelar</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card card-nav-tabs ">
+                <div class="card-header card-header-success text-center">
+                    Listagem de Turmas
+                </div>
+                <div class="card-body mt-3">
+                    <table class="table pt-4 mb-4" id='myTable'>
+                        <thead>
+                            <tr>
+                                <th>Turma</th>
+                                <th>Curso</th>
+                                <th class="text-right">Opções</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for object in object_list %}
+                            <tr>
+                                <td>{{ object }}</td>
+                                <td>{{ object.course }}</td>
+                                <td class="td-actions text-right">
+                                    <a href="{% url 'school:grade_update' semester.pk object.pk %}">
+                                        <button type="button" rel="tooltip" class="btn btn-success p-2">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+                                    </a>
+                                    <a href="{% url 'school:grade_delete' semester.pk  object.id %}">
+                                        <button type="button" rel="tooltip" class="btn btn-danger p-2">
+                                            <i class="material-icons">close</i>
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+{% endblock content %}
+
+

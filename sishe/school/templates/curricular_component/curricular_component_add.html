@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %} SisHE - Create {% endblock title %}
+{% block content %}
+<section class="container my-5">
+    <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'school:grade_create' grade.semester.pk %}">Turmas</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Componentes Curriculares</li>
+        </ol>
+      </nav>
+
+    <!-- exibindo messages do django -->
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    <button class="btn btn-success btn-fab btn-round btn-lg" style="float: right" data-toggle="modal" data-target="#objectModal">
+        <i class="material-icons">add</i>
+    </button>   
+    <h2>Componentes Curriculares</h2>
+    <h3>{{ grade.course }} {{ grade }} </h3>
+    
+        
+    
+<!--     
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#objectModal">
+        Novo Componente Curricular
+    </button>  -->
+
+   
+
+
+    <!-- <span class="material-icons">add_circle</span> -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="objectModal" tabindex="-1" role="dialog" aria-labelledby="objectModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title" id="objectModalLabel">Cadastrar Componente Curricular</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" class="form-group">{% csrf_token %}
+            
+                    {% for field in form %}
+                        <div class="form-group">
+                            <label for="{{ field.name }}">{{field.label}}</label>
+                            {{ field | add_class:"form-control"}}
+                        </div>
+                    {% endfor %}
+
+                    <input class="btn btn-success my-3" type="submit" value="Adicionar" />
+                </form>
+            </div>
+
+        </div>
+        </div>
+    </div>
+          
+                
+
+    <div class="card card-body">
+        <div class="card-header card-header-success text-center">
+            Listagem de Componentes Curriculares
+        </div>
+        <div class="card-body mt-3">
+            <table class="table pt-4 mb-4" id='myTable'>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Professor</th>
+                        <th>Núcleo</th>
+                        <th>Tipo</th>
+                        <th>Cor</th>
+                        <th class="text-right">Opções</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for object in object_list %}
+
+                    <tr>
+                        <td><strong>{{ object.name }}</strong>
+                        <td>{{ object.teacher }}</td> 
+                        <td>{{ object.core }}</td> 
+                        <td>{{ object.type }}</td>       
+                        <td><button class="btn btn-fab btn-fab-mini btn-round" style="background-color:{{ object.color }};"></button></td>                                 
+            
+                        <td class="td-actions text-right">
+                            <a href="{% url 'school:curricular_component_update' grade.pk object.pk %}">
+                                <button type="button" rel="tooltip" class="btn btn-success p-2">
+                                    <i class="material-icons">edit</i>
+                                </button>
+                            </a>
+                            <a href="{% url 'school:curricular_component_delete' grade.pk  object.id %}">
+                                <button type="button" rel="tooltip" class="btn btn-danger p-2">
+                                    <i class="material-icons">close</i>
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+
+
+{% block scripts %} 
+
+    {{ block.super }}
+    {{ form.media }}
+
+    <script>
+        color = document.getElementById('id_color')
+        color.value = '{{random_color}}'
+    </script>
+   
+{% endblock %}

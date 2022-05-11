@@ -4,10 +4,11 @@ from . import views as my_views
 from django.urls import reverse_lazy   
 from django.contrib.auth import views
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
-
+from .models import User
 app_name = "accounts"
 
 urlpatterns = [ 
+    path('accounts/user_autocomplete/', my_views.UserAutocomplete.as_view(), name='user_autocomplete'),
     path('accounts/user_create/', my_views.UserCreate.as_view(), name="user_create"),
     path('', views.LoginView.as_view(template_name='user/login.html'), name='login'),
     path('logout/', views.LogoutView.as_view(next_page='accounts:login'), name='logout'),
@@ -35,7 +36,7 @@ urlpatterns = [
         ), name='password_reset_confirm'),
     # mensagem final, apos redefinir a senha
     path('reset/done/', views.PasswordResetCompleteView.as_view(template_name='user/password_reset_complete.html'), name='password_reset_complete'),
-
+    # autocomplete para coordenador
 
     # Axis
     path('axis/add', my_views.AxisCreate.as_view(), name='axis_create'),
@@ -46,4 +47,5 @@ urlpatterns = [
     path('teacher/add', my_views.TeacherCreate.as_view(), name='teacher_create'),
     path('teacher/edit/<int:pk>', my_views.TeacherUpdate.as_view(), name='teacher_update'),
     path('teacher/delete/<int:pk>', my_views.TeacherDelete.as_view(), name='teacher_delete'),
+    path('teacher/teacher_autocomplete/', my_views.TeacherAutocomplete.as_view(), name='teacher_autocomplete'),
 ]

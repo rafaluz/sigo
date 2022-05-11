@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %} SisHE - Edit {% endblock title %}
+{% block content %}
+<section class="container my-5">
+    <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'school:grade_create' grade.semester.pk %}">Turnos</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Horários dos Turnos</li>
+        </ol>
+      </nav>
+      
+    <h2>Componentes Curriculares</h2>
+    <h3>{{ grade.course }} {{ grade }} </h3>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card card-nav-tabs">
+                <div class="card-header card-header-success text-center">
+                    Alterar Componente Curricular
+                </div>
+                <div class="card-body mt-3">
+                    <form method="post" class="form-group">{% csrf_token %}
+
+                        {% for field in form %}
+                            <div class="form-group">
+                                <label for="{{ field.name }}">{{field.label}}</label>
+                                {{ field | add_class:"form-control"}}
+                            </div>
+                        {% endfor %}
+
+                        <input class="btn btn-success my-3" type="submit" value="Editar"/>
+                        <a class="btn btn-info my-3" href="{% url 'school:curricular_component_create' grade.pk %}">Cancelar</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8" style="opacity: 0.5;">
+            <div class="card card-nav-tabs ">
+                <div class="card-header card-header-success text-center">
+                    Listagem de Componentes Curriculares
+                </div>
+                <div class="card-body mt-3">
+                    <table class="table pt-4 mb-4" id='myTable'>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Professor</th>
+                                <th class="text-right">Opções</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for object in object_list %}
+                            <tr>
+                                <td><strong>{{ object.name }}</strong> <br> {{ object.core }} | {{ object.type }}</td>
+                                <td><span class="material-icons" style="color: {{object.color}};">school</span> {{ object.teacher }} </td>                                          
+                                <td class="td-actions text-right">
+                                    <a href="{% url 'school:curricular_component_update' grade.pk object.pk %}">
+                                        <button type="button" rel="tooltip" class="btn btn-success p-2">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+                                    </a>
+                                    <a href="{% url 'school:curricular_component_delete' grade.pk  object.id %}">
+                                        <button type="button" rel="tooltip" class="btn btn-danger p-2">
+                                            <i class="material-icons">close</i>
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+{% endblock content %}
+
+
+{% block scripts %} 
+
+    {{ block.super }}
+    {{ form.media }}
+   
+{% endblock %}

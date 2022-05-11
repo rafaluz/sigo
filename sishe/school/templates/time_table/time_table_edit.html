@@ -4,6 +4,13 @@
 {% block title %} SisHE - Edit {% endblock title %}
 {% block content %}
 <section class="container my-5">
+    <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'school:class_shift_create' %}">Turnos</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Horários dos Turnos</li>
+        </ol>
+      </nav>
+      
     <h2>Horários do Turno ( {{ class_shift }} )</h2>
 
     <div class="row">
@@ -29,7 +36,7 @@
             </div>
         </div>
 
-        <div class="col-md-8">
+        <div class="col-md-8" style="opacity: 0.5;">
             <div class="card card-nav-tabs ">
                 <div class="card-header card-header-success text-center">
                     Listagem de Turnos
