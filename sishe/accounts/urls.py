@@ -10,6 +10,7 @@ app_name = "accounts"
 urlpatterns = [ 
     path('accounts/user_autocomplete/', my_views.UserAutocomplete.as_view(), name='user_autocomplete'),
     path('accounts/user_create/', my_views.UserCreate.as_view(), name="user_create"),
+    path('accounts/user_update/<int:pk>', my_views.UserUpdate.as_view(), name="user_update"),
     path('', views.LoginView.as_view(template_name='user/login.html'), name='login'),
     path('logout/', views.LogoutView.as_view(next_page='accounts:login'), name='logout'),
 

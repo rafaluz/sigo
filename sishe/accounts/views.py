@@ -11,12 +11,24 @@ from dal import autocomplete
 
 from sishe.school.models import ClassShift
 
-class UserCreate(CreateView):
+class UserCreate(CreateView, ListView):
     model = User
-    template_name = 'user/add.html'
+    template_name = 'user/user_add.html'
     form_class = CreateUserForm
-    success_url = reverse_lazy('accounts:login')
-    # success_url = reverse_lazy('core:index')
+    # success_url = reverse_lazy('accounts:login')
+    def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, "Coordenador criado com sucesso!")
+        return reverse('accounts:user_create')
+
+class UserUpdate(UpdateView, ListView):
+    model = User
+    template_name = 'user/user_edit.html'
+    form_class = CreateUserForm
+
+    def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, "Coordenador alterado com sucesso!")
+        return reverse('accounts:user_create')
+
 
 
 class UserAutocomplete(autocomplete.Select2QuerySetView):
