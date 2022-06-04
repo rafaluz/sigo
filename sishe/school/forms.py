@@ -1,5 +1,5 @@
 from logging import PlaceHolder
-from turtle import color
+# from turtle import color
 from django import forms
 from .models import *
 from dal import autocomplete
@@ -89,6 +89,16 @@ class GradeForm(forms.ModelForm):
 
 
 class CurricularComponentForm(forms.ModelForm):
+
+    color = forms.CharField(
+        label='Cor',
+        widget=forms.TextInput(
+            attrs={
+                'type': 'Color',
+                # 'class': 'color',
+            }
+        )
+    )
 
     teacher = forms.ModelChoiceField(
         label="Professor",

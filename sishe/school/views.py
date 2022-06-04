@@ -306,9 +306,9 @@ def gerarCor():
 ############### Componente Curricular - Disciplina ###############
 class CurricularComponentCreate(CreateView, ListView):
     model = CurricularComponent
-    template_name = 'curricular_component/curricular_component_add.html'
+    # template_name = 'curricular_component/curricular_component_add.html'
     # template_name = 'curricular_component/curricular_component_add_colapse.html'
-    # template_name = 'curricular_component/curricular_component_add_backup.html'
+    template_name = 'curricular_component/curricular_component_add_backup.html'
     form_class = CurricularComponentForm
 
     def get_context_data(self, **kwargs):

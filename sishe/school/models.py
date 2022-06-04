@@ -1,7 +1,7 @@
 from pyexpat import model
 from django.db import models
 from sishe.accounts.models import AuditModel, Teacher, User
-from colorfield.fields import ColorField
+# from colorfield.fields import ColorField
 
 # Curso
 class Course(AuditModel):
@@ -71,8 +71,8 @@ class CurricularComponent(AuditModel):
     teacher = models.ForeignKey(Teacher, verbose_name='Teacher', related_name='curricular_components', on_delete=models.CASCADE)
     total_workload = models.IntegerField("Carga horária total")
     weekly_workload = models.IntegerField("Carga horária semanal") # integer or choice?
-    # color = models.CharField('Cor',max_length=255)
-    color = ColorField(default='#FF0000')
+    color = models.CharField('Cor',max_length=255, default='#FF0000')
+    # color = ColorField(default='#FF0000')
     
     CORE_CHOICES = (('Basico', 'Basico'), ('Tecnologico', 'Tecnologico'), ('Integrador', 'Integrador'), ('Complementar', 'Complementar'))
     core = models.CharField(u'Núcleo', max_length=12, choices=CORE_CHOICES, blank=True, help_text='*')

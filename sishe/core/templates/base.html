@@ -91,7 +91,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {% if request.user.name %}
-                                    {{ request.user.fist_name}}
+                                    {{ request.user.first_name}}
                                 {% else %}
                                     {{ request.user.username}}
                                 {% endif %}
