@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %} SisHE - Edit {% endblock title %}
+{% block content %}
+<section class="container my-5">
+    <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'school:schedule_semester' %}">Horários</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Horários das turmas</li>
+        </ol>
+      </nav>
+
+    <h2>Horários das turmas - {{ semester }}</h2>
+
+    <div class="row">
+        {% if object_list.count > 0 %}
+            {% for object in object_list %}
+                <div class="col-md-4">
+                    <div class="card text-center" style="width: 20rem;">
+                        <div class="card-body">
+                            <h3 class="card-text ">{{ object.mode }}</h3>
+                            <h4 class="card-title text-success">{{ object.course }}</h4>
+                            <h4 class="card-text">{{ object.period }} º Módulo/Periodo</h4>
+                            <a href="{% url 'school:schedule_curricular_component' object.pk %}" class="btn btn-success">Horários</a>
+                        </div>
+                    </div>  
+                </div>
+            {% endfor %}
+        {% else%}
+            <div class="alert alert-info" role="alert">
+                Nenhuma turma cadastrada!
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+
+
+{% endblock content %}
+
+
+{% block scripts %}
+
+{{ block.super }}
+{{ form.media }}
+
+{% endblock %}

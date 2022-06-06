@@ -1,10 +1,11 @@
+import json
 from django.shortcuts import render, get_object_or_404
 from .models import *    
 from django.urls import reverse_lazy, reverse    
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView, FormMixin    
 from django.views.generic import ListView, DetailView
 from django.contrib import messages
-from django.http import HttpResponseRedirect 
+from django.http import HttpResponseRedirect, JsonResponse 
 from .forms import TimeTableCreateForm, CourseForm, SemesterForm, GradeForm, CurricularComponentForm
 from dal import autocomplete
 from django.db.models import Q
@@ -390,3 +391,68 @@ class CurricularComponentDelete(DeleteView):
     def get_success_url(self):
         messages.add_message(self.request, messages.SUCCESS, "Componente Curricular Removido com sucesso!")
         return reverse('school:curricular_component_create', kwargs={'grade_pk': self.kwargs['grade_pk']})
+
+
+
+############### HORÁRIOS ESCOLARES ###############
+class ScheduleSemester(ListView):
+    model = Semester
+    template_name = 'schedule/semester.html'
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+      
+    #     context.update({
+	# 		'object_list': curricular_components,
+	# 	    })
+
+    #     return context
+
+class ScheduleSemesterGrade(ListView):
+    model = Grade
+    template_name = 'schedule/semester_grade.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        semester_pk = self.kwargs['semester_pk']
+        semester = get_object_or_404(Semester, pk=semester_pk)
+        grades = Grade.objects.filter(semester = semester_pk)
+
+        context.update({
+            'semester':semester,
+			'object_list': grades,
+		    })
+
+        return context
+
+class ScheduleCurricularComponent(ListView):
+    model = CurricularComponent
+    template_name = 'schedule/schedule.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        grade_pk = self.kwargs['grade_pk']
+        grade = get_object_or_404(Grade, pk=grade_pk)
+        curricular_components = CurricularComponent.objects.filter(grade = grade_pk)
+
+        random_color = gerarCor()
+        context.update({
+            'grade':grade,
+			'object_list': curricular_components,
+            'random_color':random_color,
+		    })
+
+        return context
+
+
+def ScheduleCreate(request):
+    if request.method == 'POST':
+        curricular_component = request.POST['curricular_component']
+        curricular_component = get_object_or_404(CurricularComponent, pk=curricular_component)
+        weekday = request.POST['weekday']
+        dropzone = request.POST['dropzone']
+        horario = Schedule(curricular_component=curricular_component,weekday=weekday,dropzone=dropzone)
+        horario.save()
+        return JsonResponse({'codigo':1})
+    else:
+	    return JsonResponse({'codigo':0})

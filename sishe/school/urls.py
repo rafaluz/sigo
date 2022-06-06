@@ -34,6 +34,13 @@ urlpatterns = [
     path('curricular_component/add/<int:grade_pk>', my_views.CurricularComponentCreate.as_view(), name='curricular_component_create'),
     path('curricular_component/edit/<int:grade_pk>/<int:pk>', my_views.CurricularComponentUpdate.as_view(), name='curricular_component_update'),
     path('curricular_component/delete/<int:grade_pk>/<int:pk>', my_views.CurricularComponentDelete.as_view(), name='curricular_component_delete'),
+
+    # Schedule
+    path('schedule/semester', my_views.ScheduleSemester.as_view(), name='schedule_semester'),
+    path('schedule/grade/<int:semester_pk>', my_views.ScheduleSemesterGrade.as_view(), name='schedule_semester_grade'),
+    path('schedule/curricular_component/<int:grade_pk>', my_views.ScheduleCurricularComponent.as_view(), name='schedule_curricular_component'),
+    path('schedule/create', my_views.ScheduleCreate, name='schedule_create'),
+    
 ] 
 
 

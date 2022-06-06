@@ -1,3 +1,39 @@
 .select2-container--default .select2-selection--single {
     padding-bottom: 32px;
 }
+
+
+.dropzone {
+    padding: 16px;
+    /* min-width: 282px;
+    min-height: 200px; */
+}
+
+.curricular_component {
+    background-color: #1A1A1C;
+    padding: 16px;
+    box-shadow: 0 2px 2px -1px #FD951Fcc;
+    /* width: 250px; */
+    margin: 10px 0;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+}
+
+.highlight {
+    background-color: #fd951f1f;
+}
+
+.card, .dropzone {
+    transition: 400ms;
+}
+
+.is-dragging {
+    cursor: move;
+    opacity: 0.3;
+}
+
+.over {
+    background-color: #4cd1373f;
+}

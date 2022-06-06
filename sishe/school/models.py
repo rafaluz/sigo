@@ -95,11 +95,12 @@ class Schedule(AuditModel):
     curricular_component = models.ForeignKey(CurricularComponent, verbose_name='CurricularComponent', related_name='schedules', on_delete=models.CASCADE)
     WEEKDAY_DAYS_CHOICES = (('Seg', 'Seg'), ('Ter', 'Ter'), ('Qua', 'Qua'), ('Qui', 'Qui'), ('Sex', 'Sex'), ('Sab', 'Sab'))
     weekday = models.CharField(u'Dia da semana', max_length=10, choices=WEEKDAY_DAYS_CHOICES, blank=True, help_text='*')
-    time_table = models.ForeignKey(TimeTable, verbose_name='TimeTable', related_name='schedules', on_delete=models.CASCADE)
-    
+    # time_table = models.ForeignKey(TimeTable, verbose_name='TimeTable', related_name='schedules', on_delete=models.CASCADE)
+    # start = models.TimeField('Hora de Início da Aula')
+    dropzone = models.CharField('Dropzone', max_length=12, null=True, blank=True)
     
     def __str__(self):
-        return str(self.curricular_component + " - " + self.curricular_component.teacher + " - " + self.weekday + " - " + self.time_table.start ) 
+        return str(self.curricular_component) + " - " + str(self.curricular_component.teacher) + " - " + str(self.dropzone) 
 
     class Meta:
         verbose_name = 'Schedule'

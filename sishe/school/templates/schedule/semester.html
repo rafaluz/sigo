@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %} SisHE - Edit {% endblock title %}
+{% block content %}
+<section class="container my-5">
+    <h2>Horários</h2>
+
+    <div class="row">
+        {% if object_list.count > 0 %}
+            {% for object in object_list %}
+                <div class="col-md-4">
+                    <div class="card" style="width: 20rem;">
+                        <div class="card-body">
+                            <h4 class="card-title text-center">{{ object.name }}</h4>
+                            <p class="card-text"> <b>Início:</b> {{ object.start_date }}.</p>
+                            <p class="card-text"> <b>Termino:</b> {{ object.start_date }}.</p>
+                            <!-- <p class="card-text"> <b>Periodo de criação dos horários:</b> xx/xx/xxxx à xx/xx/xxxx</p> -->
+                            <a href="{% url 'school:schedule_semester_grade' object.pk %}" class="btn btn-success">Ver Horários</a>
+                        </div>
+                    </div>  
+                </div>
+            {% endfor %}
+        {% else%}
+            <div class="alert alert-info" role="alert">
+                Nenhum semestre cadastrado!
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+
+
+{% endblock content %}
+
+
+{% block scripts %}
+
+{{ block.super }}
+{{ form.media }}
+
+{% endblock %}
