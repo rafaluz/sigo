@@ -1,4 +1,4 @@
-/** help */
+    /** help */
 function log(message) {
     console.log('> ' + message)
 }
@@ -38,31 +38,26 @@ function dragend() {
     //----------------- codigo do rafa
 
     dropzone_id = this.parentNode.getAttribute("id")
-    day_of_week = this.parentNode.getAttribute("dayOfWeek")
+    weekday = this.parentNode.getAttribute("data-dayOfWeek")
     curricular_component = this.getAttribute("data-curricularComponent")
 
-   
-    url_schedule_create = "../schedule_create"+ curricular_component_id
-    "{% url 'school:schedule_create' curricular_component  %}"
-
+    url_schedule_create = "/schedule/create"
     $.ajax({
         url: url_schedule_create,
-        type: 'get',
+        type: 'post',
         data : { 
-            'pk': curricular_component,
-            'day_of_week': day_of_week,
+            'curricular_component': curricular_component,
+            'weekday': weekday,
             'dropzone': dropzone_id,
             'csrfmiddlewaretoken': '{{ csrf_token }}',
         },
         success: function (d) {
-            // console.log(d)
-            // if (d.codigo == 0) {
-            //     link.removeClass('btn-danger');
-            //     link.addClass('btn-success');
-            // } else if(d.codigo == 1) {
-            //     link.removeClass('btn-success');
-            //     link.addClass('btn-danger');
-            // };
+            log("deu certo")
+            if (d.codigo == 0) {
+               log("Cadastrado com sucesso")
+            } else if(d.codigo == 1) {
+                log("Nada feito")
+            };
         }
         });
 
@@ -71,6 +66,24 @@ function dragend() {
 
 
 }
+
+// rafa
+
+{% for disciplina in object_list %}
+    
+    {% for horario in disciplina.schedules.all %}
+        dropzones.forEach( dropzone => {
+            log("estou aqui")
+            if (dropzone.getAttribute("id") == "{{ horario.dropzone }}") {
+                log("agora estou aqui")
+                dropzone.appendChild(document.querySelector('[data-curricularComponent="{{disciplina.pk}}"]'))
+            }
+        })
+    {% endfor %}
+{% endfor %}
+
+    
+
 
 /** place where we will drop cards */
 dropzones.forEach( dropzone => {

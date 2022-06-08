@@ -7,7 +7,7 @@
 <section class="container-fluid my-5">
     <nav aria-label="breadcrumb" role="navigation">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'school:schedule_semester_grade' grade.semester.pk %}">Horários
+            <li class="breadcrumb-item"><a class="text-success" href="{% url 'school:schedule_semester_grade' grade.semester.pk %}">Horários
                     das turmas</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ grade }}</li>
         </ol>
