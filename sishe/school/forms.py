@@ -6,23 +6,23 @@ from dal import autocomplete
 from sishe.accounts.models import User, Axis, Teacher 
 import random
 
-class TimeTableCreateForm(forms.ModelForm):
-    start = forms.TimeField(
-        label='Hora de Início da Aula',
-        widget=forms.TextInput(
-            attrs={
-                'type': 'Time',
-                'class': 'time',
-                'format': 'HH:00',
-                # 'min':'07:00',
-                # 'max':'22:00',
-            }
-        )
-    )
+# class TimeTableCreateForm(forms.ModelForm):
+#     start = forms.TimeField(
+#         label='Hora de Início da Aula',
+#         widget=forms.TextInput(
+#             attrs={
+#                 'type': 'Time',
+#                 'class': 'time',
+#                 'format': 'HH:00',
+#                 # 'min':'07:00',
+#                 # 'max':'22:00',
+#             }
+#         )
+#     )
 
-    class Meta:
-        model = TimeTable
-        fields = ('start',)
+#     class Meta:
+#         model = TimeTable
+#         fields = ('start',)
 
         
         

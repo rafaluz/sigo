@@ -25,25 +25,25 @@ class Semester(AuditModel):
     def __str__(self):
         return self.name
 
-# Turno
-class ClassShift(AuditModel):
-    name = models.CharField('Nome',max_length=255)
+# # Turno
+# class ClassShift(AuditModel):
+#     name = models.CharField('Nome',max_length=255)
     
-    def __str__(self):
-        return self.name
+#     def __str__(self):
+#         return self.name
 
-# Horário das aulas
-class TimeTable(AuditModel):
-    start = models.TimeField('Hora de Início da Aula')
-    class_shift = models.ForeignKey(ClassShift, verbose_name='ClassShift', related_name='timetables', on_delete=models.CASCADE)
+# # Horário das aulas
+# class TimeTable(AuditModel):
+#     start = models.TimeField('Hora de Início da Aula')
+#     class_shift = models.ForeignKey(ClassShift, verbose_name='ClassShift', related_name='timetables', on_delete=models.CASCADE)
     
-    def __str__(self):
-        return str(self.start)
+#     def __str__(self):
+#         return str(self.start)
 
-    class Meta:
-        verbose_name = 'TimeTable'
-        verbose_name_plural = 'TimeTables'
-        ordering = ['create_on']
+#     class Meta:
+#         verbose_name = 'TimeTable'
+#         verbose_name_plural = 'TimeTables'
+#         ordering = ['create_on']
 
 
 # Turma
@@ -52,7 +52,9 @@ class Grade(AuditModel):
     MODE_CHOICES = (('Integrado', 'Integrado'), ('Subsequente', 'Subsequente'), ('Superior', 'Superior'))
     mode = models.CharField(u'Forma', max_length=11, choices=MODE_CHOICES, blank=True, help_text='*',default='Integrado')
     period = models.IntegerField("Periodo Letivo")
-    class_shift = models.ForeignKey(ClassShift, verbose_name='ClassShift', related_name='grades', on_delete=models.CASCADE)
+    # class_shift = models.ForeignKey(ClassShift, verbose_name='ClassShift', related_name='grades', on_delete=models.CASCADE)
+    CLASS_SHIFT_CHOICES = (('0', 'Diurno/Manhã'), ('1', 'Diurno/Tarde'), ('2', 'Diurno/Integral'), ('3', 'Noturno'))
+    class_shift = models.CharField(u'Turno', max_length=15, choices=CLASS_SHIFT_CHOICES, blank=True, help_text='*',default='0')
     semester = models.ForeignKey(Semester, verbose_name='Semester', related_name='grades', on_delete=models.CASCADE)
     
     def __str__(self):
@@ -94,13 +96,13 @@ class Schedule(AuditModel):
     # grade = models.ForeignKey(Grade, verbose_name='Grade', related_name='schedules', on_delete=models.CASCADE)
     curricular_component = models.ForeignKey(CurricularComponent, verbose_name='CurricularComponent', related_name='schedules', on_delete=models.CASCADE)
     WEEKDAY_DAYS_CHOICES = (('Seg', 'Seg'), ('Ter', 'Ter'), ('Qua', 'Qua'), ('Qui', 'Qui'), ('Sex', 'Sex'), ('Sab', 'Sab'))
-    weekday = models.CharField(u'Dia da semana', max_length=10, choices=WEEKDAY_DAYS_CHOICES, blank=True, help_text='*')
+    weekday = models.CharField(u'Dia da semana', max_length=3, choices=WEEKDAY_DAYS_CHOICES, blank=True, help_text='*')
     # time_table = models.ForeignKey(TimeTable, verbose_name='TimeTable', related_name='schedules', on_delete=models.CASCADE)
-    # start = models.TimeField('Hora de Início da Aula')
-    dropzone = models.CharField('Dropzone', max_length=12, null=True, blank=True)
+    start = models.TimeField('Hora de Início da Aula', blank=True, null=True)
+    # dropzone = models.CharField('Dropzone', max_length=12, null=True, blank=True)
     
     def __str__(self):
-        return str(self.curricular_component) + " - " + str(self.curricular_component.teacher) + " - " + str(self.dropzone) 
+        return str(self.curricular_component) + " - " + str(self.curricular_component.teacher) + " - " + str(self.weekday) + " - " + str(self.start) 
 
     class Meta:
         verbose_name = 'Schedule'

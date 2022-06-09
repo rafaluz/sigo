@@ -6,144 +6,144 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormVi
 from django.views.generic import ListView, DetailView
 from django.contrib import messages
 from django.http import HttpResponseRedirect, JsonResponse 
-from .forms import TimeTableCreateForm, CourseForm, SemesterForm, GradeForm, CurricularComponentForm
+from .forms import CourseForm, SemesterForm, GradeForm, CurricularComponentForm #TimeTableCreateForm
 from dal import autocomplete
 from django.db.models import Q
 import random
 # Create your views here.
 
-############### Turno ###############
-class ClassShiftCreate(CreateView, ListView):
-    model = ClassShift
-    template_name = 'class_shift/class_shift_add.html'
-    fields = '__all__'
+# ############### Turno ###############
+# class ClassShiftCreate(CreateView, ListView):
+#     model = ClassShift
+#     template_name = 'class_shift/class_shift_add.html'
+#     fields = '__all__'
 
-    def get_success_url(self):
-        # enviando mensagem de sucesso
-        messages.add_message(self.request, messages.SUCCESS, "Turno Cadastrado com sucesso!")
-        return reverse('school:class_shift_create')
+#     def get_success_url(self):
+#         # enviando mensagem de sucesso
+#         messages.add_message(self.request, messages.SUCCESS, "Turno Cadastrado com sucesso!")
+#         return reverse('school:class_shift_create')
 
-class ClassShiftUpdate(UpdateView, ListView):
-    model = ClassShift
-    template_name = 'class_shift/class_shift_edit.html'
-    fields = '__all__'
+# class ClassShiftUpdate(UpdateView, ListView):
+#     model = ClassShift
+#     template_name = 'class_shift/class_shift_edit.html'
+#     fields = '__all__'
 
-    def get_success_url(self):
-        messages.add_message(self.request, messages.SUCCESS, "Turno Alterado com sucesso!")
-        return reverse('school:class_shift_create')
+#     def get_success_url(self):
+#         messages.add_message(self.request, messages.SUCCESS, "Turno Alterado com sucesso!")
+#         return reverse('school:class_shift_create')
 
-class ClassShiftDelete(DeleteView):
-    model = ClassShift
-    template_name = 'class_shift/class_shift_confirm_delete.html'
-    # success_url = reverse_lazy('accounts:class_shift_create')
-    def get_success_url(self):
-        messages.add_message(self.request, messages.SUCCESS, "Turno Removido com sucesso!")
-        return reverse('school:class_shift_create')
-
-
-############### Horarios das aulas em cada turno ###############
-class TimeTableCreate(CreateView, ListView):
-    model = TimeTable
-    template_name = 'time_table/time_table_add.html'
-    form_class = TimeTableCreateForm
-    # fields = ['start']
+# class ClassShiftDelete(DeleteView):
+#     model = ClassShift
+#     template_name = 'class_shift/class_shift_confirm_delete.html'
+#     # success_url = reverse_lazy('accounts:class_shift_create')
+#     def get_success_url(self):
+#         messages.add_message(self.request, messages.SUCCESS, "Turno Removido com sucesso!")
+#         return reverse('school:class_shift_create')
 
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+# ############### Horarios das aulas em cada turno ###############
+# class TimeTableCreate(CreateView, ListView):
+#     model = TimeTable
+#     template_name = 'time_table/time_table_add.html'
+#     form_class = TimeTableCreateForm
+#     # fields = ['start']
 
-        # pegar a chave do turno que passei pela url
-        class_shift_pk = self.kwargs['class_shift_pk']
-        # pegar o turno
-        class_shift = get_object_or_404(ClassShift, pk=class_shift_pk)
-        time_tables = TimeTable.objects.filter(class_shift = class_shift_pk)
 
-        context.update({
-            'class_shift':class_shift,
-			'object_list': time_tables,
-		    })
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
 
-        return context
+#         # pegar a chave do turno que passei pela url
+#         class_shift_pk = self.kwargs['class_shift_pk']
+#         # pegar o turno
+#         class_shift = get_object_or_404(ClassShift, pk=class_shift_pk)
+#         time_tables = TimeTable.objects.filter(class_shift = class_shift_pk)
 
-    def form_valid(self, form):
-        time_table = form.save(commit=False)
+#         context.update({
+#             'class_shift':class_shift,
+# 			'object_list': time_tables,
+# 		    })
+
+#         return context
+
+#     def form_valid(self, form):
+#         time_table = form.save(commit=False)
         
         
-        class_shift_pk = self.kwargs['class_shift_pk'] # pegar a chave do turno que passei pela url
-        class_shift = get_object_or_404(ClassShift, pk=class_shift_pk) # pegar o turno
+#         class_shift_pk = self.kwargs['class_shift_pk'] # pegar a chave do turno que passei pela url
+#         class_shift = get_object_or_404(ClassShift, pk=class_shift_pk) # pegar o turno
 
-        time_table.class_shift = class_shift
-        time_table.save()
+#         time_table.class_shift = class_shift
+#         time_table.save()
         
-        return HttpResponseRedirect(self.get_success_url())
+#         return HttpResponseRedirect(self.get_success_url())
 
-    def get_success_url(self):
-        # enviando mensagem de sucesso
-        messages.add_message(self.request, messages.SUCCESS, "Horário Cadastrado com sucesso!")
-        # Enviar novamente a pk do turno correspondente para a pagina de criação de horarios
-        return reverse('school:time_table_create', kwargs={'class_shift_pk': self.kwargs['class_shift_pk']})
+#     def get_success_url(self):
+#         # enviando mensagem de sucesso
+#         messages.add_message(self.request, messages.SUCCESS, "Horário Cadastrado com sucesso!")
+#         # Enviar novamente a pk do turno correspondente para a pagina de criação de horarios
+#         return reverse('school:time_table_create', kwargs={'class_shift_pk': self.kwargs['class_shift_pk']})
    
-class TimeTableUpdate(UpdateView, ListView):
-    model = TimeTable
-    template_name = 'time_table/time_table_edit.html'
-    form_class = TimeTableCreateForm
+# class TimeTableUpdate(UpdateView, ListView):
+#     model = TimeTable
+#     template_name = 'time_table/time_table_edit.html'
+#     form_class = TimeTableCreateForm
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
 
-        # pegar a chave do turno que passei pela url
-        class_shift_pk = self.kwargs['class_shift_pk']
-        # pegar o turno
-        class_shift = get_object_or_404(ClassShift, pk=class_shift_pk)
-        time_tables = TimeTable.objects.filter(class_shift = class_shift_pk)
+#         # pegar a chave do turno que passei pela url
+#         class_shift_pk = self.kwargs['class_shift_pk']
+#         # pegar o turno
+#         class_shift = get_object_or_404(ClassShift, pk=class_shift_pk)
+#         time_tables = TimeTable.objects.filter(class_shift = class_shift_pk)
 
-        context.update({
-            'class_shift':class_shift,
-			'object_list': time_tables,
-		    })
+#         context.update({
+#             'class_shift':class_shift,
+# 			'object_list': time_tables,
+# 		    })
 
-        return context
+#         return context
 
-    def form_valid(self, form):
-        time_table = form.save(commit=False)
+#     def form_valid(self, form):
+#         time_table = form.save(commit=False)
         
         
-        class_shift_pk = self.kwargs['class_shift_pk'] # pegar a chave do turno que passei pela url
-        class_shift = get_object_or_404(ClassShift, pk=class_shift_pk) # pegar o turno
+#         class_shift_pk = self.kwargs['class_shift_pk'] # pegar a chave do turno que passei pela url
+#         class_shift = get_object_or_404(ClassShift, pk=class_shift_pk) # pegar o turno
 
-        time_table.class_shift = class_shift
-        time_table.save()
+#         time_table.class_shift = class_shift
+#         time_table.save()
         
-        return HttpResponseRedirect(self.get_success_url())
+#         return HttpResponseRedirect(self.get_success_url())
 
-    def get_success_url(self):
-        # enviando mensagem de sucesso
-        messages.add_message(self.request, messages.SUCCESS, "Horário Cadastrado com sucesso!")
-        # Enviar novamente a pk do turno correspondente para a pagina de criação de horarios
-        return reverse('school:time_table_create', kwargs={'class_shift_pk': self.kwargs['class_shift_pk']})
+#     def get_success_url(self):
+#         # enviando mensagem de sucesso
+#         messages.add_message(self.request, messages.SUCCESS, "Horário Cadastrado com sucesso!")
+#         # Enviar novamente a pk do turno correspondente para a pagina de criação de horarios
+#         return reverse('school:time_table_create', kwargs={'class_shift_pk': self.kwargs['class_shift_pk']})
 
-class TimeTableDelete(DeleteView):
-    model = TimeTable
-    template_name = 'time_table/time_table_confirm_delete.html'
-    # success_url = reverse_lazy('accounts:time_table_create')
+# class TimeTableDelete(DeleteView):
+#     model = TimeTable
+#     template_name = 'time_table/time_table_confirm_delete.html'
+#     # success_url = reverse_lazy('accounts:time_table_create')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
 
-        # pegar a chave do turno que passei pela url
-        class_shift_pk = self.kwargs['class_shift_pk']
-        # pegar o turno
-        class_shift = get_object_or_404(ClassShift, pk=class_shift_pk)
+#         # pegar a chave do turno que passei pela url
+#         class_shift_pk = self.kwargs['class_shift_pk']
+#         # pegar o turno
+#         class_shift = get_object_or_404(ClassShift, pk=class_shift_pk)
 
-        context.update({
-            'class_shift':class_shift,
-		})
+#         context.update({
+#             'class_shift':class_shift,
+# 		})
 
-        return context
+#         return context
 
-    def get_success_url(self):
-        messages.add_message(self.request, messages.SUCCESS, "Horário Removido com sucesso!")
-        return reverse('school:time_table_create', kwargs={'class_shift_pk': self.kwargs['class_shift_pk']})
+#     def get_success_url(self):
+#         messages.add_message(self.request, messages.SUCCESS, "Horário Removido com sucesso!")
+#         return reverse('school:time_table_create', kwargs={'class_shift_pk': self.kwargs['class_shift_pk']})
 
 
 

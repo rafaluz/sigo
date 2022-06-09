@@ -9,8 +9,6 @@ from django.db.models import Q
 
 from dal import autocomplete
 
-from sishe.school.models import ClassShift
-
 class UserCreate(CreateView, ListView):
     model = User
     template_name = 'user/user_add.html'
