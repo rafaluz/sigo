@@ -40,6 +40,7 @@ urlpatterns = [
     path('schedule/grade/<int:semester_pk>', my_views.ScheduleSemesterGrade.as_view(), name='schedule_semester_grade'),
     path('schedule/curricular_component/<int:grade_pk>', my_views.ScheduleCurricularComponent.as_view(), name='schedule_curricular_component'),
     path('schedule/create', my_views.ScheduleCreate, name='schedule_create'),
+    path('schedule/dragstart', my_views.ScheduleDragstart, name='schedule_dragstart'),
     
 ] 
 

@@ -1,0 +1,370 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block title %} SisHE - Edit {% endblock title %}
+{% block content %}
+<section class="container-fluid">
+    <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a class="text-success" href="{% url 'school:schedule_semester_grade' grade.semester.pk %}">Horários
+                    das turmas</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ grade }}</li>
+        </ol>
+    </nav>
+
+    <h3>Horários da turma - {{ grade }} - {{ grade.course }} / {{grade.class_shift}}</h3>
+    <div class="row">
+        <div class="col-md-3 d-print-none">
+            <div class="card" >
+                <div class="card-body dropzone">
+                    <h4>Disciplinas</h4>
+                    {% for schedule in schedule_grade %}
+                    
+                            <div class="curricular_component" style="background-color: {{ schedule.curricular_component.color}};" draggable="true" data-weekday="{{schedule.weekday}}" data-start="{{schedule.start}}" data-id="{{schedule.pk}}">
+                                {{ schedule.curricular_component.name }} <br>
+                                {{ schedule.curricular_component.teacher }}
+                            </div>
+
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="card col-md-12" >
+                <div class="card-body">
+                    <!-- id='myTable' -->
+                    <table class="table table-bordered text-center manha {% if grade.class_shift != '0' or grade.class_shift != '2' %}turn-off{% endif %}">
+                        <thead>
+                            <tr>
+                                <th class="text-center" colspan="7">Manhã</th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th>Segunda</th>
+                                <th>Terça</th>
+                                <th>Quarta</th>
+                                <th>Quinta</th>
+                                <th>Sexta</th>
+                                <th>Sábado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <div class="board">
+                                <tr>
+                                    <td>07:00</td>
+                                    <td class="dropzone" data-weekday="Seg" data-start="07:00"></td>
+                                    <td class="dropzone" data-weekday="Ter" data-start="07:00"></td>
+                                    <td class="dropzone" data-weekday="Qua" data-start="07:00"></td>
+                                    <td class="dropzone" data-weekday="Qui" data-start="07:00"></td>
+                                    <td class="dropzone" data-weekday="Sex" data-start="07:00"></td>
+                                    <td class="dropzone" data-weekday="Sab" data-start="07:00"></td>
+                                </tr>
+                                <tr>
+                                    <td>08:00</td>
+                                    <td class="dropzone" data-weekday="Seg" data-start="08:00"></td>
+                                    <td class="dropzone" data-weekday="Ter" data-start="08:00"></td>
+                                    <td class="dropzone" data-weekday="Qua" data-start="08:00"></td>
+                                    <td class="dropzone" data-weekday="Qui" data-start="08:00"></td>
+                                    <td class="dropzone" data-weekday="Sex" data-start="08:00"></td>
+                                    <td class="dropzone" data-weekday="Sab" data-start="08:00"></td>
+                                </tr>
+                                <tr>
+                                    <td>09:00</td>
+                                    <td class="dropzone" data-weekday="Seg" data-start="09:00"></td>
+                                    <td class="dropzone" data-weekday="Ter" data-start="09:00"></td>
+                                    <td class="dropzone" data-weekday="Qua" data-start="09:00"></td>
+                                    <td class="dropzone" data-weekday="Qui" data-start="09:00"></td>
+                                    <td class="dropzone" data-weekday="Sex" data-start="09:00"></td>
+                                    <td class="dropzone" data-weekday="Sab" data-start="09:00"></td>
+                                </tr>
+                                <tr>
+                                    <td>10:00</td>
+                                    <td class="dropzone" data-weekday="Seg" data-start="10:00"></td>
+                                    <td class="dropzone" data-weekday="Ter" data-start="10:00"></td>
+                                    <td class="dropzone" data-weekday="Qua" data-start="10:00"></td>
+                                    <td class="dropzone" data-weekday="Qui" data-start="10:00"></td>
+                                    <td class="dropzone" data-weekday="Sex" data-start="10:00"></td>
+                                    <td class="dropzone" data-weekday="Sab" data-start="10:00"></td>
+                                </tr>
+                                <tr>
+                                    <td>11:00</td>
+                                    <td class="dropzone" data-weekday="Seg" data-start="11:00"></td>
+                                    <td class="dropzone" data-weekday="Ter" data-start="11:00"></td>
+                                    <td class="dropzone" data-weekday="Qua" data-start="11:00"></td>
+                                    <td class="dropzone" data-weekday="Qui" data-start="11:00"></td>
+                                    <td class="dropzone" data-weekday="Sex" data-start="11:00"></td>
+                                    <td class="dropzone" data-weekday="Sab" data-start="11:00"></td>
+                                </tr>
+
+                            </div>
+                        </tbody>
+                        
+                    </table>
+
+                    <table class="table table-bordered pt-4 mb-4 text-center tarde {% if not grade.class_shift == '0' or not grade.class_shift == '2' %}turn-off{% endif %}">
+                        <thead>
+                            <tr>
+                                <th class="text-center" colspan="7">Tarde</th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th>Segunda</th>
+                                <th>Terça</th>
+                                <th>Quarta</th>
+                                <th>Quinta</th>
+                                <th>Sexta</th>
+                                <th>Sábado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <div class="board">
+                                <tr>
+                                    <td>13:00</td>
+                                    <td class="dropzone" data-weekday="Seg" data-start="13:00"></td>
+                                    <td class="dropzone" data-weekday="Ter" data-start="13:00"></td>
+                                    <td class="dropzone" data-weekday="Qua" data-start="13:00"></td>
+                                    <td class="dropzone" data-weekday="Qui" data-start="13:00"></td>
+                                    <td class="dropzone" data-weekday="Sex" data-start="13:00"></td>
+                                    <td class="dropzone" data-weekday="Sab" data-start="13:00"></td>
+                                </tr>
+                                <tr>
+                                    <td>14:00</td>
+                                    <td class="dropzone" data-weekday="Seg" data-start="14:00"></td>
+                                    <td class="dropzone" data-weekday="Ter" data-start="14:00"></td>
+                                    <td class="dropzone" data-weekday="Qua" data-start="14:00"></td>
+                                    <td class="dropzone" data-weekday="Qui" data-start="14:00"></td>
+                                    <td class="dropzone" data-weekday="Sex" data-start="14:00"></td>
+                                    <td class="dropzone" data-weekday="Sab" data-start="14:00"></td>
+                                </tr>
+                                <tr>
+                                    <td>15:00</td>
+                                    <td class="dropzone" data-weekday="Seg" data-start="15:00"></td>
+                                    <td class="dropzone" data-weekday="Ter" data-start="15:00"></td>
+                                    <td class="dropzone" data-weekday="Qua" data-start="15:00"></td>
+                                    <td class="dropzone" data-weekday="Qui" data-start="15:00"></td>
+                                    <td class="dropzone" data-weekday="Sex" data-start="15:00"></td>
+                                    <td class="dropzone" data-weekday="Sab" data-start="15:00"></td>
+                                </tr>
+                                <tr>
+                                    <td>16:00</td>
+                                    <td class="dropzone" data-weekday="Seg" data-start="16:00"></td>
+                                    <td class="dropzone" data-weekday="Ter" data-start="16:00"></td>
+                                    <td class="dropzone" data-weekday="Qua" data-start="16:00"></td>
+                                    <td class="dropzone" data-weekday="Qui" data-start="16:00"></td>
+                                    <td class="dropzone" data-weekday="Sex" data-start="16:00"></td>
+                                    <td class="dropzone" data-weekday="Sab" data-start="16:00"></td>
+                                </tr>
+                                <tr>
+                                    <td>17:00</td>
+                                    <td class="dropzone" data-weekday="Seg" data-start="17:00"></td>
+                                    <td class="dropzone" data-weekday="Ter" data-start="17:00"></td>
+                                    <td class="dropzone" data-weekday="Qua" data-start="17:00"></td>
+                                    <td class="dropzone" data-weekday="Qui" data-start="17:00"></td>
+                                    <td class="dropzone" data-weekday="Sex" data-start="17:00"></td>
+                                    <td class="dropzone" data-weekday="Sab" data-start="17:00"></td>
+                                </tr>
+
+                            </div>
+                        </tbody>
+                        
+                    </table>
+
+                    <table class="table table-bordered pt-4 mb-4 text-center noite {% if grade.class_shift != '3' %}turn-off{% endif %}">
+                        <thead>
+                            <tr>
+                                <th class="text-center" colspan="7">Noite</th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th>Segunda</th>
+                                <th>Terça</th>
+                                <th>Quarta</th>
+                                <th>Quinta</th>
+                                <th>Sexta</th>
+                                <th>Sábado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <div class="board">
+                                <tr>
+                                    <td>18:00</td>
+                                    <td class="dropzone" data-weekday="Seg" data-start="18:00"></td>
+                                    <td class="dropzone" data-weekday="Ter" data-start="18:00"></td>
+                                    <td class="dropzone" data-weekday="Qua" data-start="18:00"></td>
+                                    <td class="dropzone" data-weekday="Qui" data-start="18:00"></td>
+                                    <td class="dropzone" data-weekday="Sex" data-start="18:00"></td>
+                                    <td class="dropzone" data-weekday="Sab" data-start="18:00"></td>
+                                </tr>
+                                <tr>
+                                    <td>19:00</td>
+                                    <td class="dropzone" data-weekday="Seg" data-start="19:00"></td>
+                                    <td class="dropzone" data-weekday="Ter" data-start="19:00"></td>
+                                    <td class="dropzone" data-weekday="Qua" data-start="19:00"></td>
+                                    <td class="dropzone" data-weekday="Qui" data-start="19:00"></td>
+                                    <td class="dropzone" data-weekday="Sex" data-start="19:00"></td>
+                                    <td class="dropzone" data-weekday="Sab" data-start="19:00"></td>
+                                </tr>
+                                <tr>
+                                    <td>20:00</td>
+                                    <td class="dropzone" data-weekday="Seg" data-start="20:00"></td>
+                                    <td class="dropzone" data-weekday="Ter" data-start="20:00"></td>
+                                    <td class="dropzone" data-weekday="Qua" data-start="20:00"></td>
+                                    <td class="dropzone" data-weekday="Qui" data-start="20:00"></td>
+                                    <td class="dropzone" data-weekday="Sex" data-start="20:00"></td>
+                                    <td class="dropzone" data-weekday="Sab" data-start="20:00"></td>
+                                </tr>
+                                <tr>
+                                    <td>21:00</td>
+                                    <td class="dropzone" data-weekday="Seg" data-start="21:00"></td>
+                                    <td class="dropzone" data-weekday="Ter" data-start="21:00"></td>
+                                    <td class="dropzone" data-weekday="Qua" data-start="21:00"></td>
+                                    <td class="dropzone" data-weekday="Qui" data-start="21:00"></td>
+                                    <td class="dropzone" data-weekday="Sex" data-start="21:00"></td>
+                                    <td class="dropzone" data-weekday="Sab" data-start="21:00"></td>
+                                </tr>
+
+                            </div>
+                        </tbody>
+                        
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock content %}
+
+
+{% block scripts %}
+
+{{ block.super }}
+{{ form.media }}
+
+<!-- <script src="{% static 'my_js/my_drag_and_drop.js' %}"></script> -->
+
+<script>
+    /** help */
+function log(message) {
+    console.log('> ' + message)
+}
+
+const cards = document.querySelectorAll('.curricular_component')
+const dropzones = document.querySelectorAll('.dropzone')
+
+
+// rafa
+
+{% for schedule in schedule_grade %}
+    dropzones.forEach( dropzone => {
+        if (dropzone.getAttribute("data-weekday") == "{{ schedule.weekday }}" && dropzone.getAttribute("data-start") == "{{ schedule.start }}") {
+            dropzone.appendChild(document.querySelector('[data-id="{{schedule.pk}}"]'))
+        }
+    })
+    
+{% endfor %}
+
+
+/** our cards */
+cards.forEach(card => {
+    card.addEventListener('dragstart', dragstart)
+    card.addEventListener('drag', drag)
+    card.addEventListener('dragend', dragend)
+})
+
+function dragstart() {
+    // log('CARD: Start dragging ')
+    dropzones.forEach( dropzone => dropzone.classList.add('highlight'))
+
+    // this = card
+    this.classList.add('is-dragging')
+}
+
+function drag() {
+    // log('CARD: Is dragging ')
+}
+
+function dragend() {
+    // log('CARD: Stop drag! ')
+    dropzones.forEach( dropzone => dropzone.classList.remove('highlight'))
+
+    // this = card
+    this.classList.remove('is-dragging')
+
+    
+    //----------------- codigo do rafa
+
+    schedule_weekday = this.parentNode.getAttribute("data-weekday")
+    schedule_start = this.parentNode.getAttribute("data-start")
+    schedule_id = this.getAttribute("data-id")
+
+    url_schedule_create = "/schedule/create"
+    $.ajax({
+        url: url_schedule_create,
+        type: 'post',
+        data : { 
+            'weekday': schedule_weekday,
+            'start': schedule_start,
+            'schedule_id': schedule_id,
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+        },
+        success: function (d) {
+            log("deu certo")
+            if (d.codigo == 0) {
+               log("Cadastrado com sucesso")
+            } else if(d.codigo == 1) {
+                log("Nada feito")
+            };
+        }
+        });
+
+    // -----------------------
+
+
+
+}  
+
+
+/** place where we will drop cards */
+dropzones.forEach( dropzone => {
+    dropzone.addEventListener('dragenter', dragenter)
+    dropzone.addEventListener('dragover', dragover)
+    dropzone.addEventListener('dragleave', dragleave)
+    dropzone.addEventListener('drop', drop)
+})
+
+function dragenter() {
+    // log('DROPZONE: Enter in zone ')
+}
+
+function dragover() {
+    // this = dropzone
+    this.classList.add('over')
+
+    // get dragging card
+    const cardBeingDragged = document.querySelector('.is-dragging')
+
+    // this = dropzone
+    this.appendChild(cardBeingDragged)
+}
+
+function dragleave() {
+    // log('DROPZONE: Leave ')
+    // this = dropzone
+    this.classList.remove('over')
+
+}
+
+function drop() {
+    // log('DROPZONE: dropped ')
+    this.classList.remove('over')
+}
+</script>
+
+{% endblock %}

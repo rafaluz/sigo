@@ -4,16 +4,17 @@
 
 
 .dropzone {
-    padding: 16px;
+    /* padding: 16px; */
     /* min-width: 282px;
     min-height: 200px; */
 }
 
 .curricular_component {
     background-color: #1A1A1C;
-    padding: 16px;
+    padding: 10px;
     box-shadow: 0 2px 2px -1px #FD951Fcc;
     /* width: 250px; */
+    width: 100%;
     margin: 10px 0;
     border-radius: 4px;
     font-weight: 600;
@@ -36,4 +37,40 @@
 
 .over {
     background-color: #4cd1373f;
+}
+
+/* .table td {
+    vertical-align: center !important;
+} */
+
+/* turno não prioritário */
+.turn-off {
+    background-color: rgba(255, 0, 0, 0.37);
+    /* rgba(153, 51, 51, 0.363) !important; */
+}
+
+.card-header-accordion {
+    border-bottom: 1px solid #ddd;
+    padding: 5px 10px 5px 0;
+    margin: 0;
+    box-shadow: none!important;
+    background: #fff;
+}
+
+.card-collapse .card-header-accordion a i {
+    float: right;
+    top: 4px;
+    position: relative;
+}
+
+.card-sticky {
+    position: sticky;
+    top: 30px;
+    overflow-y: scroll;
+    height: 600px;
+}
+
+.blocked-schedule {
+    background-color: rgba(255, 0, 0, 0.37);
+    border: rgb(63, 62, 62) dotted 2px !important;
 }

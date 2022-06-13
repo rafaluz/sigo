@@ -1,4 +1,6 @@
+# from asyncio.windows_events import NULL
 import json
+from tracemalloc import start
 from django.shortcuts import render, get_object_or_404
 from .models import *    
 from django.urls import reverse_lazy, reverse    
@@ -10,6 +12,7 @@ from .forms import CourseForm, SemesterForm, GradeForm, CurricularComponentForm 
 from dal import autocomplete
 from django.db.models import Q
 import random
+from django.core import serializers
 # Create your views here.
 
 # ############### Turno ###############
@@ -425,21 +428,48 @@ class ScheduleSemesterGrade(ListView):
 
         return context
 
+# class ScheduleCurricularComponent(ListView):
+#     model = CurricularComponent
+#     template_name = 'schedule/schedule.html'
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         grade_pk = self.kwargs['grade_pk']
+#         grade = get_object_or_404(Grade, pk=grade_pk)
+#         curricular_components = CurricularComponent.objects.filter(grade = grade_pk)
+
+#         random_color = gerarCor()
+#         context.update({
+#             'grade':grade,
+# 			'object_list': curricular_components,
+#             'random_color':random_color,
+# 		    })
+
+#         return context
+
 class ScheduleCurricularComponent(ListView):
-    model = CurricularComponent
+    model = Schedule
     template_name = 'schedule/schedule.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         grade_pk = self.kwargs['grade_pk']
         grade = get_object_or_404(Grade, pk=grade_pk)
-        curricular_components = CurricularComponent.objects.filter(grade = grade_pk)
+
+        schedule_grade = Schedule.objects.filter(curricular_component__grade = grade_pk)
+        schedule_not_dropzone = schedule_grade.filter(weekday="", start=None)
+        schedule_dropzone = schedule_grade.exclude(weekday="", start=None)
 
         random_color = gerarCor()
+
         context.update({
+            # 'object_list': será a lista com todos os schedules
             'grade':grade,
-			'object_list': curricular_components,
+            'schedule_grade':schedule_grade,
+			'schedule_not_dropzone': schedule_not_dropzone,
+            'schedule_dropzone':schedule_dropzone,
             'random_color':random_color,
+            
 		    })
 
         return context
@@ -447,12 +477,46 @@ class ScheduleCurricularComponent(ListView):
 
 def ScheduleCreate(request):
     if request.method == 'POST':
-        curricular_component = request.POST['curricular_component']
-        curricular_component = get_object_or_404(CurricularComponent, pk=curricular_component)
+        print("entrou aqui no ajax -------------------")
+        schedule_id = request.POST['schedule_id']
+        schedule = get_object_or_404(Schedule, pk=schedule_id)
         weekday = request.POST['weekday']
-        dropzone = request.POST['dropzone']
-        horario = Schedule(curricular_component=curricular_component,weekday=weekday,dropzone=dropzone)
-        horario.save()
-        return JsonResponse({'codigo':1})
-    else:
-	    return JsonResponse({'codigo':0})
+        start = request.POST['start']
+        if start == "":
+            start = None
+        
+        schedule.weekday = weekday
+        schedule.start = start
+        schedules_teacher = Schedule.objects.filter(curricular_component__teacher=schedule.curricular_component.teacher, weekday = weekday, start = start).exclude(weekday="", start=None).count()
+        if schedules_teacher > 0:
+            # horário indisponivel
+            return JsonResponse({'codigo':0})
+        else:
+            # horário disponivel
+            schedule.save()
+            return JsonResponse({'codigo':1})
+
+
+def ScheduleDragstart(request):
+    if request.method == 'POST':
+        schedule_id = request.POST['schedule_id']
+        schedule = get_object_or_404(Schedule, pk=schedule_id)
+        
+        teacher = schedule.curricular_component.teacher
+        semester = schedule.curricular_component.grade.semester
+
+        teacher_schedules = Schedule.objects.filter(curricular_component__teacher=teacher, curricular_component__grade__semester=semester).exclude(weekday="", start=None) #.values('curricular_component','weekday','start')
+        
+        data = []
+        for i in teacher_schedules:
+            data.append(i.to_dict())
+
+        # data = list(data)
+        # data = serializers.serialize("json",data)
+        # data = json.loads(data)
+        # data = json.dumps(data)
+
+        # return JsonResponse({'codigo':0,'teacher_schedules':data}, safe=False)
+        return JsonResponse(data, safe=False)
+
+        

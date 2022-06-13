@@ -109,3 +109,33 @@ class Schedule(AuditModel):
         verbose_name_plural = 'Schedules'
         ordering = ['create_on']
 
+    def showTeacher(self):
+        return self.curricular_component.teacher
+    
+    def showGrade(self):
+        return self.curricular_component.grade
+    
+    def showCourse(self):
+        return self.curricular_component.grade.course
+
+    def to_dict(self):
+        # from datetime import datetime, time, timedelta, timezone
+        # import time
+        # start = str(self.start)
+        # print("--------------", start[:5])
+        # start = time.strptime(self.start, "%H:%M")
+        # print("---------------------------", start)
+        return {
+            'id':self.id,
+            'curricular_component':self.curricular_component.name,
+            'weekday':self.weekday,
+            'start': str(self.start)[:5],
+            'teacher':self.curricular_component.teacher.name,
+            'grade_period':self.curricular_component.grade.period,
+            'grade_mode':self.curricular_component.grade.mode,
+            'course':self.curricular_component.grade.course.name,
+        }
+    
+    # def to_dict(self):
+    #     data = [self.id, self.curricular_component, self.weekday, self.start, self.curricular_component.teacher, self.curricular_component.grade, self.curricular_component.grade.course]
+    #     return data
