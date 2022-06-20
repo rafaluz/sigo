@@ -50,7 +50,7 @@
                           <div id="collapseOne" class="collapse {% if grade.class_shift == '0' or grade.class_shift == '2' %}show{% endif %}" role="tabpanel" aria-labelledby="headingOne">
                             <div class="card-body">
                               <!-- tabela da manha -->
-                              <table class="table table-bordered text-center manha {% if grade.class_shift != '0' and grade.class_shift != '2' %}turn-off{% endif %}">
+                              <table class="table table-bordered text-center table-schedule manha {% if grade.class_shift != '0' and grade.class_shift != '2' %}turn-off{% endif %}">
                                 <thead>
                                     <tr>
                                         <th class="text-center" colspan="7">Manhã</th>
@@ -131,7 +131,7 @@
                           <div id="collapseTwo" class="collapse {% if grade.class_shift == '1' or grade.class_shift == '2' %}show{% endif %}" role="tabpanel" aria-labelledby="headingTwo">
                             <div class="card-body">
                               <!-- tabela da tarde -->
-                              <table class="table table-bordered pt-4 mb-4 text-center tarde {% if grade.class_shift != '1' and grade.class_shift != '2' %}turn-off{% endif %}">
+                              <table class="table table-bordered pt-4 mb-4 text-center table-schedule tarde {% if grade.class_shift != '1' and grade.class_shift != '2' %}turn-off{% endif %}">
                                 <thead>
                                     <tr>
                                         <th class="text-center" colspan="7">Tarde</th>
@@ -212,7 +212,7 @@
                           <div id="collapseThree" class="collapse {% if grade.class_shift == '3' %}show{% endif %}" role="tabpanel" aria-labelledby="headingThree">
                             <div class="card-body">
                                 <!-- tabela da noite -->
-                                <table class="table table-bordered pt-4 mb-4 text-center noite {% if grade.class_shift != '3' %}turn-off{% endif %}">
+                                <table class="table table-bordered pt-4 mb-4 text-center table-schedule noite {% if grade.class_shift != '3' %}turn-off{% endif %}">
                                     <thead>
                                         <tr>
                                             <th class="text-center" colspan="7">Noite</th>
@@ -310,7 +310,7 @@ const headerdays = document.querySelectorAll('.headerday')
         if (dropzone.getAttribute("data-weekday") == "{{ schedule.weekday }}" && dropzone.getAttribute("data-start") == "{{ schedule.start }}") {
             dropzone.appendChild(document.querySelector('[data-id="{{schedule.pk}}"]'))
             // cor de fundo no elemento pai
-            // dropzone.style.backgroundColor = document.querySelector('[data-id="{{schedule.pk}}"]').style.backgroundColor
+            dropzone.style.backgroundColor = document.querySelector('[data-id="{{schedule.pk}}"]').style.backgroundColor
         }
     })
 {% endfor %}
@@ -411,8 +411,16 @@ function dragend() {
 
     // -----------------------
 
+    if (!this.parentNode.parentNode.classList.contains('card-sticky')){
+       this.parentNode.style.backgroundColor = this.style.backgroundColor
+    }
+    
+    dropzones.forEach( dropzone => {
+            if(dropzone.childNodes.length == 0){ 
+                dropzone.style.backgroundColor = ""
+            }
 
-
+        })
 }  
 
 
@@ -427,7 +435,6 @@ dropzones.forEach( dropzone => {
 function dragenter() {
     // log('DROPZONE: Enter in zone ')
     // this.style.backgroundColor = this.children[0].style.backgroundColor
-    
 }
 
 function dragover() {
@@ -444,7 +451,14 @@ function dragover() {
     // cardBeingDragged.parentNode.style.backgroundColor = ""
 
     // this = dropzone
-    this.appendChild(cardBeingDragged)
+    if (this.parentNode.classList.contains('card-sticky')){
+        this.appendChild(cardBeingDragged)
+    }
+    if (this.childNodes.length == 0){
+        this.appendChild(cardBeingDragged)
+        // this.style.backgroundColor = cardBeingDragged.style.backgroundColor
+    }
+    // this.appendChild(cardBeingDragged)
     // alterar a cor de fundo do elemento pai para a mesma do card / com exceção do dropzone que tem os cards iniciais
     // if (!this.parentNode.classList.contains('card-sticky')){
     //     log(this.childNodes.length)
@@ -462,7 +476,8 @@ function dragleave() {
     // this = dropzone
     this.classList.remove('over')
 
-    // if (this.childNodes.length == 1){
+    // this.style.backgroundColor = ""
+    // if (this.childNodes.length == 0){
     //     this.style.backgroundColor = ""
     // }
     // removendo a cor de fundo do elemento pai, apos tirar um card dele. Com exceção de dropzone que ja tenha card.
@@ -472,8 +487,7 @@ function dragleave() {
 
 function drop() {
     // log('DROPZONE: dropped ')
-    this.classList.remove('over')
-    
+    this.classList.remove('over')    
 }
 </script>
 
