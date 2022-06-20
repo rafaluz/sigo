@@ -22,8 +22,9 @@
                     {% for schedule in schedule_grade %}
                     
                             <div class="curricular_component" style="background-color: {{ schedule.curricular_component.color}};" draggable="true" data-weekday="{{schedule.weekday}}" data-start="{{schedule.start}}" data-id="{{schedule.pk}}">
-                                {{ schedule.curricular_component.name }} <br>
-                                {{ schedule.curricular_component.teacher }}
+                                <p class="core-name">Núcleo {{ schedule.curricular_component.core }}</p> 
+                                <p class="curricular-component-name">{{ schedule.curricular_component.name }}</p> 
+                                <p class="teacher-name">({{ schedule.curricular_component.teacher.abbreviated_gender }} {{ schedule.curricular_component.teacher }})</p>
                             </div>
 
                             
@@ -46,7 +47,7 @@
                               </a>
                           </div>
                       
-                          <div id="collapseOne" class="collapse show {% if grade.class_shift == '0' or grade.class_shift == '2' %}show{% endif %}" role="tabpanel" aria-labelledby="headingOne">
+                          <div id="collapseOne" class="collapse {% if grade.class_shift == '0' or grade.class_shift == '2' %}show{% endif %}" role="tabpanel" aria-labelledby="headingOne">
                             <div class="card-body">
                               <!-- tabela da manha -->
                               <table class="table table-bordered text-center manha {% if grade.class_shift != '0' and grade.class_shift != '2' %}turn-off{% endif %}">
@@ -56,18 +57,18 @@
                                     </tr>
                                     <tr>
                                         <th></th>
-                                        <th>Segunda</th>
-                                        <th>Terça</th>
-                                        <th>Quarta</th>
-                                        <th>Quinta</th>
-                                        <th>Sexta</th>
-                                        <th>Sábado</th>
+                                        <th class="headerday" data-school_days="Seg">Segunda</th>
+                                        <th class="headerday" data-school_days="Ter">Terça</th>
+                                        <th class="headerday" data-school_days="Qua">Quarta</th>
+                                        <th class="headerday" data-school_days="Qui">Quinta</th>
+                                        <th class="headerday" data-school_days="Sex">Sexta</th>
+                                        <th class="headerday" data-school_days="Sab">Sábado</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <div class="board">
                                         <tr>
-                                            <td>07:00</td>
+                                            <td class="px-2">07:00</td>
                                             <td class="dropzone" data-weekday="Seg" data-start="07:00"></td>
                                             <td class="dropzone" data-weekday="Ter" data-start="07:00"></td>
                                             <td class="dropzone" data-weekday="Qua" data-start="07:00"></td>
@@ -127,7 +128,7 @@
                                   <i class="material-icons">keyboard_arrow_down</i>
                               </a>
                           </div>
-                          <div id="collapseTwo" class="collapse show {% if grade.class_shift == '1' or grade.class_shift == '2' %}show{% endif %}" role="tabpanel" aria-labelledby="headingTwo">
+                          <div id="collapseTwo" class="collapse {% if grade.class_shift == '1' or grade.class_shift == '2' %}show{% endif %}" role="tabpanel" aria-labelledby="headingTwo">
                             <div class="card-body">
                               <!-- tabela da tarde -->
                               <table class="table table-bordered pt-4 mb-4 text-center tarde {% if grade.class_shift != '1' and grade.class_shift != '2' %}turn-off{% endif %}">
@@ -137,18 +138,18 @@
                                     </tr>
                                     <tr>
                                         <th></th>
-                                        <th>Segunda</th>
-                                        <th>Terça</th>
-                                        <th>Quarta</th>
-                                        <th>Quinta</th>
-                                        <th>Sexta</th>
-                                        <th>Sábado</th>
+                                        <th class="headerday" data-school_days="Seg">Segunda</th>
+                                        <th class="headerday" data-school_days="Ter">Terça</th>
+                                        <th class="headerday" data-school_days="Qua">Quarta</th>
+                                        <th class="headerday" data-school_days="Qui">Quinta</th>
+                                        <th class="headerday" data-school_days="Sex">Sexta</th>
+                                        <th class="headerday" data-school_days="Sab">Sábado</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <div class="board">
                                         <tr>
-                                            <td>13:00</td>
+                                            <td class="px-2">13:00</td>
                                             <td class="dropzone" data-weekday="Seg" data-start="13:00"></td>
                                             <td class="dropzone" data-weekday="Ter" data-start="13:00"></td>
                                             <td class="dropzone" data-weekday="Qua" data-start="13:00"></td>
@@ -208,7 +209,7 @@
                                   <i class="material-icons">keyboard_arrow_down</i>
                               </a>
                           </div>
-                          <div id="collapseThree" class="collapse show {% if grade.class_shift == '3' %}show{% endif %}" role="tabpanel" aria-labelledby="headingThree">
+                          <div id="collapseThree" class="collapse {% if grade.class_shift == '3' %}show{% endif %}" role="tabpanel" aria-labelledby="headingThree">
                             <div class="card-body">
                                 <!-- tabela da noite -->
                                 <table class="table table-bordered pt-4 mb-4 text-center noite {% if grade.class_shift != '3' %}turn-off{% endif %}">
@@ -217,19 +218,19 @@
                                             <th class="text-center" colspan="7">Noite</th>
                                         </tr>
                                         <tr>
-                                            <th></th>
-                                            <th>Segunda</th>
-                                            <th>Terça</th>
-                                            <th>Quarta</th>
-                                            <th>Quinta</th>
-                                            <th>Sexta</th>
-                                            <th>Sábado</th>
+                                            <th ></th>
+                                            <th class="headerday" data-school_days="Seg">Segunda</th>
+                                            <th class="headerday" data-school_days="Ter">Terça</th>
+                                            <th class="headerday" data-school_days="Qua">Quarta</th>
+                                            <th class="headerday" data-school_days="Qui">Quinta</th>
+                                            <th class="headerday" data-school_days="Sex">Sexta</th>
+                                            <th class="headerday" data-school_days="Sab">Sábado</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <div class="board">
                                             <tr>
-                                                <td>18:00</td>
+                                                <td class="px-2">18:00</td>
                                                 <td droppable="False" class="dropzone" data-weekday="Seg" data-start="18:00"></td>
                                                 <td class="dropzone" data-weekday="Ter" data-start="18:00"></td>
                                                 <td class="dropzone" data-weekday="Qua" data-start="18:00"></td>
@@ -301,20 +302,17 @@ function log(message) {
 
 const cards = document.querySelectorAll('.curricular_component')
 const dropzones = document.querySelectorAll('.dropzone')
+const headerdays = document.querySelectorAll('.headerday')
 
-
-// rafa
-
+// rafa - colocando os cards dentro dos seus respectivos dropzones/horarios
 {% for schedule in schedule_grade %}
     dropzones.forEach( dropzone => {
-        
         if (dropzone.getAttribute("data-weekday") == "{{ schedule.weekday }}" && dropzone.getAttribute("data-start") == "{{ schedule.start }}") {
             dropzone.appendChild(document.querySelector('[data-id="{{schedule.pk}}"]'))
-            log(dropzone.getAttribute("data-start"))
-            log('{{ schedule.start }}')
+            // cor de fundo no elemento pai
+            // dropzone.style.backgroundColor = document.querySelector('[data-id="{{schedule.pk}}"]').style.backgroundColor
         }
     })
-    
 {% endfor %}
 
 
@@ -332,7 +330,7 @@ function dragstart() {
     // this = card
     this.classList.add('is-dragging')
 
-     
+    // rafael - ajax que indica os horarios indisponiveis do prof atraves de uma estilização vermelha 
     let schedule_id = this.getAttribute("data-id")
     let url_schedule_dragstart = "/schedule/dragstart"
     $.ajax({
@@ -343,19 +341,29 @@ function dragstart() {
             'csrfmiddlewaretoken': '{{ csrf_token }}',
         },
         success: function (response) {
-            
-
+            // for para estilizar os horarios indisponiveis
             dropzones.forEach( dropzone => {
-                for (let schedule in response){
-                    // log(response[schedule]['start'])
-                    // log(dropzone.getAttribute("data-start"))
-                    // log('-----------------')
-                    if (dropzone.getAttribute("data-weekday") == response[schedule]['weekday'] && dropzone.getAttribute("data-start") == response[schedule]['start']) {
-                        log("-------------------------------- entrou no if")
+                for (let schedule in response['data']){
+                    if (dropzone.getAttribute("data-weekday") == response['data'][schedule]['weekday'] && dropzone.getAttribute("data-start") == response['data'][schedule]['start']) {
                         dropzone.classList.add('blocked-schedule')
                     }
                 }
             })
+
+            // for para estilizar os dias letivos do professor
+            headerdays.forEach( headerday => {
+                for (let dayofweek in response['teacher_school_days']){
+                    if (response['teacher_school_days'][dayofweek] == headerday.getAttribute("data-school_days")) {
+                        headerday.classList.add('school-days')
+                    } else {
+                        headerday.classList.add('notschool-days')
+                    }
+                }
+            })
+
+
+
+       
             
         }
         });
@@ -368,13 +376,13 @@ function drag() {
 function dragend() {
     // log('CARD: Stop drag! ')
     dropzones.forEach( dropzone => dropzone.classList.remove('highlight','blocked-schedule'))
+    headerdays.forEach( headerday => headerday.classList.remove('school-days', 'notschool-days'))
+              
 
     // this = card
     this.classList.remove('is-dragging')
-
     
-    //----------------- codigo do rafa
-
+    // rafael - ajax para criar os schedules
     let schedule_weekday = this.parentNode.getAttribute("data-weekday")
     let schedule_start = this.parentNode.getAttribute("data-start")
     let schedule_id = this.getAttribute("data-id")
@@ -392,11 +400,11 @@ function dragend() {
         success: function (d) {
             
             if (d.codigo == 0) {
-                log("deu errado")
+                // log("deu errado")
                 window.alert("O professor ministra aula nesse horário! Por favor, utilize os horários disponiveis")
                 location.reload();
             } else if(d.codigo == 1) {
-                log("Cadastrado com sucesso")
+                // log("Cadastrado com sucesso")
             };
         }
         });
@@ -418,17 +426,35 @@ dropzones.forEach( dropzone => {
 
 function dragenter() {
     // log('DROPZONE: Enter in zone ')
+    // this.style.backgroundColor = this.children[0].style.backgroundColor
+    
 }
 
 function dragover() {
     // this = dropzone
     this.classList.add('over')
 
-    // get dragging card
+    // pegar o card que esta sendo arrastado
     const cardBeingDragged = document.querySelector('.is-dragging')
+    
+    // // removendo a cor de fundo do elemento pai, apos tirar um card dele. Com exceção de dropzone que ja tenha card.
+    // if (!this.childNodes.length == 2 || !this.childNodes.length == 0){
+    //     this.style.backgroundColor = ""
+    // }
+    // cardBeingDragged.parentNode.style.backgroundColor = ""
 
     // this = dropzone
     this.appendChild(cardBeingDragged)
+    // alterar a cor de fundo do elemento pai para a mesma do card / com exceção do dropzone que tem os cards iniciais
+    // if (!this.parentNode.classList.contains('card-sticky')){
+    //     log(this.childNodes.length)
+    //     if (this.childNodes.length == 1){
+    //         this.style.backgroundColor = cardBeingDragged.style.backgroundColor
+    //     }
+        
+    // } else {
+    //     this.style.backgroundColor = ""
+    // }
 }
 
 function dragleave() {
@@ -436,11 +462,18 @@ function dragleave() {
     // this = dropzone
     this.classList.remove('over')
 
+    // if (this.childNodes.length == 1){
+    //     this.style.backgroundColor = ""
+    // }
+    // removendo a cor de fundo do elemento pai, apos tirar um card dele. Com exceção de dropzone que ja tenha card.
+    // this.style.backgroundColor = ""
+
 }
 
 function drop() {
     // log('DROPZONE: dropped ')
     this.classList.remove('over')
+    
 }
 </script>
 

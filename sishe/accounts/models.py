@@ -62,3 +62,9 @@ class Teacher(AuditModel):
         verbose_name = 'Teacher'
         verbose_name_plural = 'Teachers'
         ordering = ['create_on']
+
+    def abbreviated_gender(self):
+        if self.gender == 'Professora':
+            return 'Prof.ª'
+        else:
+            return 'Prof.'

@@ -511,12 +511,13 @@ def ScheduleDragstart(request):
         for i in teacher_schedules:
             data.append(i.to_dict())
 
+        # print(data)
         # data = list(data)
         # data = serializers.serialize("json",data)
         # data = json.loads(data)
         # data = json.dumps(data)
 
         # return JsonResponse({'codigo':0,'teacher_schedules':data}, safe=False)
-        return JsonResponse(data, safe=False)
+        return JsonResponse({'data':data,'teacher_school_days':teacher.school_days}, safe=False)
 
         

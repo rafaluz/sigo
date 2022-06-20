@@ -131,6 +131,7 @@ class Schedule(AuditModel):
             'weekday':self.weekday,
             'start': str(self.start)[:5],
             'teacher':self.curricular_component.teacher.name,
+            'school_days':self.curricular_component.teacher.school_days,
             'grade_period':self.curricular_component.grade.period,
             'grade_mode':self.curricular_component.grade.mode,
             'course':self.curricular_component.grade.course.name,
